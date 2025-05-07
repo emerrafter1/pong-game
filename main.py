@@ -2,6 +2,7 @@ from turtle import Screen
 from paddle import Paddle
 from ball import Ball
 import time
+from scoreboard import Scoreboard
 
 
 screen = Screen()
@@ -22,12 +23,13 @@ screen.onkey(left_paddle.up, "w")
 screen.onkey(left_paddle.down, "s")
 
 game_is_on = True
+scoreboard = Scoreboard()
 
 
 
 while game_is_on:
 
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
@@ -36,19 +38,24 @@ while game_is_on:
         ball.bounce_y()
 
     #Detech collision with paddle
-    if (ball.distance(right_paddle) < 50 and ball.xcor() > 320) or (ball.distance(left_paddle) < 50 and ball.xcor() > -320):
+    if ball.distance(right_paddle) < 50 and ball.xcor() > 320 or ball.distance(left_paddle) < 50 and ball.xcor() < -320:
         ball.bounce_x()
+
+
+
 
     #Detech ball out of bounds
     if ball.xcor() > 380:
-
         ball.reset_position()
+        scoreboard.increase_left_score()
+
 
 
 
     if ball.xcor() < -380:
-
         ball.reset_position()
+        scoreboard.increase_right_score()
+
 
 
 
